@@ -1,0 +1,62 @@
+<?php
+
+namespace App\{{ domainName }}\Application;
+
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+use App\{{ domainName }}\Domain\DTO\{{ domainName }}DTO;
+use App\{{ domainName }}\Domain\DTO\{{ domainName }}OutputDTO;
+use App\{{ domainName }}\Domain\Repositories\{{ domainName }}RepositoryInterface;
+
+class {{ domainName }}CreateUseCase
+{
+    protected {{ domainName }}RepositoryInterface ${{ domainNameLower }}Repository;
+
+    public function __construct({{ domainName }}RepositoryInterface ${{ domainNameLower }}Repository)
+    {
+        // Aqui será injetado o repositório independentemente de tecnologia
+        $this->{{ domainNameLower }}Repository = ${{ domainNameLower }}Repository;
+    }
+
+    public function create{{ domainName }}({{ domainName }}DTO ${{ domainNameLower }}DTO): void
+    {
+        try {
+            DB::beginTransaction();
+            $new{{ domainName }}DTO = new {{ domainName }}DTO(); //Here goes the model attributes.
+
+            $this->{{ domainNameLower }}Repository->save($new{{ domainName }}DTO);
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Log::error($exception->getMessage());
+
+            throw ValidationException::withMessages(['default' => 'Fail to create the {{ domainName }}.']);
+        }
+    }
+
+    public function update{{ domainName }}(int $id, {{ domainName }}DTO ${{ domainNameLower }}DTO): void
+    {
+        try {
+            DB::beginTransaction();
+
+            ${{ domainNameLower }}Exists = $this->{{ domainNameLower }}Repository->findById($id);
+
+            if (!${{ domainNameLower }}Exists) {
+                throw ValidationException::withMessages(['id' => 'The {{ domainNameLower }} not exists.']);
+            }
+
+            $this->{{ domainNameLower }}Repository->update($id, ${{ domainNameLower }}DTO);
+            DB::commit();
+        } catch (ValidationException $validationException) {
+            DB::rollBack();
+            throw $validationException;
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Log::error($exception->getMessage());
+
+            throw ValidationException::withMessages(['default' => 'Fail to update the {{ domainName }}.']);
+        }
+    }
+}

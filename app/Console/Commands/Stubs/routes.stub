@@ -1,0 +1,22 @@
+<?php
+
+namespace App\{{ domainName }}\Infrastructure\Routes;
+
+use Illuminate\Support\Facades\Route;
+use App\{{ domainName }}\Infrastructure\Http\Controllers\{{ domainName }}Controller;
+
+class {{ domainName }}Routes
+{
+    public static function routes(): void
+    {
+        Route::prefix('{{ domainNameLower }}')->group(function () {
+            Route::middleware('auth:sanctum')->group(function () {
+                Route::get('/list', [{{ domainName }}Controller::class,'listAll']);
+                Route::get('/get-id/{id}', [{{ domainName }}Controller::class,'getBy{{ domainName }}Id']);
+                Route::post('/save', [{{ domainName }}Controller::class,'save']);
+                Route::put('/{id}', [{{ domainName }}Controller::class, 'update']);
+                Route::delete('/{id}', [{{ domainName }}Controller::class, 'delete']);
+            });
+        });
+    }
+}

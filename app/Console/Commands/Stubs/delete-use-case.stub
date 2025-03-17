@@ -1,0 +1,43 @@
+<?php
+
+namespace App\{{ domainName }}\Application;
+
+use Exception;
+use App\{{ domainName }}\Domain\Repositories\{{ domainName }}RepositoryInterface;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+
+class {{ domainName }}DeleteUseCase
+{
+    protected {{ domainName }}RepositoryInterface ${{ domainNameLower }}Repository;
+
+    public function __construct({{ domainName }}RepositoryInterface ${{ domainNameLower }}Repository)
+    {
+        // Aqui será injetado o repositório independentemente de tecnologia
+        $this->{{ domainNameLower }}Repository = ${{ domainNameLower }}Repository;
+    }
+
+    public function delete(int $id): void
+    {
+        try {
+            DB::beginTransaction();
+            ${{ domainNameLower }}Exists = $this->{{ domainNameLower }}Repository->findById($id);
+
+            if (!${{ domainNameLower }}Exists) {
+                throw ValidationException::withMessages(['id' => 'The {{ domainNameLower }} not exists.']);
+            }
+
+            $this->{{ domainNameLower }}Repository->delete($id);
+            DB::commit();
+        } catch (ValidationException $validationException) {
+            DB::rollBack();
+            throw $validationException;
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Log::error($exception->getMessage());
+
+            throw ValidationException::withMessages(['default' => 'Fail to delete the {{ domainName }}.']);
+        }
+    }
+}

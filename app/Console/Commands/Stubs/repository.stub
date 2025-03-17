@@ -1,0 +1,47 @@
+<?php
+
+namespace App\{{ domainName }}\Infrastructure\Repositories;
+
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\{{ domainName }}\Infrastructure\Models\{{ domainName }};
+use App\{{ domainName }}\Domain\DTO\{{ domainName }}DTO;
+use App\{{ domainName }}\Domain\DTO\{{ domainName }}OutputDTO;
+use App\{{ domainName }}\Domain\Repositories\{{ domainName }}RepositoryInterface;
+
+class {{ domainName }}EloquentRepository implements {{ domainName }}RepositoryInterface
+{
+    public function all($filters = [], $paginate = 10): ?LengthAwarePaginator
+    {
+        return {{ domainName }}::when(!empty($filters), function ($query) use ($filters) {
+            foreach ($filters as $column => $value) {
+                $query->where($column, 'like', "%$value%");
+            }
+        })->paginate($paginate);
+    }
+
+    public function findById(int $id): ?{{ domainName }}OutputDTO
+    {
+        ${{ domainNameLower }} = {{ domainName }}::where('id', $id)->first();
+
+        if (${{ domainNameLower }} === null) {
+            return null;
+        }
+
+        return new {{ domainName }}OutputDTO();
+    }
+
+    public function save({{ domainName }}DTO ${{ domainNameLower }}): void
+    {
+        {{ domainName }}::create(${{ domainNameLower }}->toArray());
+    }
+
+    public function update(int $id, {{ domainName }}DTO ${{ domainNameLower }}): void
+    {
+         {{ domainName }}::findOrFail($id)->update(${{ domainNameLower }}->toArray());
+    }
+
+    public function delete(int $id): void
+    {
+        {{ domainName }}::findOrFail($id)->delete();
+    }
+}

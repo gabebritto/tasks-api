@@ -1,0 +1,13 @@
+<?php
+
+namespace App\{{ domainName }}\Infrastructure\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class {{ domainName }} extends Model
+{
+    protected $table = '{{ domainNameLower }}';
+
+    protected $fillable = [];
+}

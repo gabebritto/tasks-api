@@ -1,0 +1,79 @@
+<?php
+
+namespace App\{{ domainName }}\Infrastructure\Http\Controllers;
+
+use App\Shared\Infrastructure\Http\Controllers\Controller;
+use App\Shared\Infrastructure\Traits\HttpResponses;
+use App\{{ domainName }}\Application\{{ domainName }}CreateUseCase;
+use App\{{ domainName }}\Application\{{ domainName }}DeleteUseCase;
+use App\{{ domainName }}\Application\{{ domainName }}GetUseCase;
+use App\{{ domainName }}\Infrastructure\Repositories\{{ domainName }}EloquentRepository;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use App\{{ domainName }}\Domain\DTO\{{ domainName }}DTO;
+
+class {{ domainName }}Controller extends Controller
+{
+    use HttpResponses;
+    private {{ domainName }}CreateUseCase ${{ domainNameLower }}CreateUseCase;
+    private {{ domainName }}GetUseCase ${{ domainNameLower }}GetUseCase;
+    private {{ domainName }}DeleteUseCase ${{ domainNameLower }}DeleteUseCase;
+
+    public function __construct({{ domainName }}EloquentRepository ${{ domainNameLower }}Repository)
+    {
+        $this->{{ domainNameLower }}CreateUseCase = new {{ domainName }}CreateUseCase(${{ domainNameLower }}Repository);
+        $this->{{ domainNameLower }}DeleteUseCase = new {{ domainName }}DeleteUseCase(${{ domainNameLower }}Repository);
+        $this->{{ domainNameLower }}GetUseCase = new {{ domainName }}GetUseCase(${{ domainNameLower }}Repository);
+    }
+
+    public function listAll(Request $request): JsonResponse
+    {
+        $all{{ domainName }} = $this->{{ domainNameLower }}GetUseCase->getAll{{ domainName }}();
+        return response()->json($all{{ domainName }});
+    }
+
+    public function getBy{{ domainName }}Id(int $id): JsonResponse
+    {
+        ${{ domainNameLower }} = $this->{{ domainNameLower }}GetUseCase->get{{ domainName }}ById($id);
+
+        if (${{ domainNameLower }}) {
+            return $this->response("Success", Response::HTTP_OK, ['{{ domainNameLower }}' => ${{ domainNameLower }}]);
+        }
+
+        return $this->response("{{ domainName }} not found", Response::HTTP_NOT_FOUND);
+    }
+
+    public function save(Request $request): JsonResponse
+    {
+            ${{ domainNameLower }}DTO = new {{ domainName }}DTO(
+                ...$request->only([]) //Add your model attributes
+            );
+
+            $this->{{ domainNameLower }}CreateUseCase->create{{ domainName }}(
+                ${{ domainNameLower }}DTO
+            );
+
+            return $this->response("{{ domainName }} successfully created!", Response::HTTP_OK);
+    }
+
+    public function update(Request $request, int $id): JsonResponse
+    {
+            ${{ domainNameLower }}DTO = new {{ domainName }}DTO(
+                ...$request->only([]) //Add your model attributes
+            );
+
+            $this->{{ domainNameLower }}CreateUseCase->update{{ domainName }}(
+                $id,
+                ${{ domainNameLower }}DTO
+            );
+
+            return $this->response("{{ domainName }} successfully updated!", Response::HTTP_OK);
+    }
+
+    public function delete(int $id): JsonResponse
+    {
+        $this->{{ domainNameLower }}DeleteUseCase->delete($id);
+        return $this->response("{{ domainName }} successfully deleted!", Response::HTTP_OK);
+    }
+}

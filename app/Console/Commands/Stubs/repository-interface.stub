@@ -1,0 +1,20 @@
+<?php
+
+namespace App\{{ domainName }}\Domain\Repositories;
+
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\{{ domainName }}\Domain\DTO\{{ domainName }}DTO;
+use App\{{ domainName }}\Domain\DTO\{{ domainName }}OutputDTO;
+
+interface {{ domainName }}RepositoryInterface
+{
+    public function all($filters, $paginate): ?LengthAwarePaginator;
+
+    public function findById(int $id): ?{{ domainName }}OutputDTO;
+
+    public function save({{ domainName }}DTO ${{ domainNameLower }}): void;
+
+    public function update(int $id, {{ domainName }}DTO ${{ domainNameLower }}): void;
+
+    public function delete(int $id): void;
+}
