@@ -2,23 +2,27 @@
 
 namespace App\User\Infrastructure\Http\Requests;
 
-use App\User\Domain\DTO\AdminCreateDTO;
-use App\User\Domain\DTO\CustomerCreateDTO;
-use App\User\Domain\DTO\CustomerUpdateDTO;
-use App\User\Domain\DTO\UserCreateDTO;
-use App\User\Domain\DTO\UserUpdateDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserUpdateRequest extends FormRequest
 {
-    public function rules(): array
-    {
-        return UserUpdateDTO::rules();
+    public function rules():array{
+        return [
+            'name' => 'required|string|min:3|max:60',
+            'email' => 'required|email|max:255'
+        ];
     }
 
-    public function messages(): array
-    {
-        return UserUpdateDTO::messages();
+    public function messages():array{
+        return [
+            'name.required' => 'Você precisa definir um nome.',
+            'name.min' => 'O nome deve ter pelo menos 3 caracteres.',
+            'name.max' => 'O nome não pode ter mais de 60 caracteres.',
+            'email.required' => 'O e-mail é obrigatório.',
+            'email.email' => 'Insira um endereço de e-mail válido.',
+            'email.max' => 'O e-mail não pode ter mais de 255 caracteres.',
+            'email.unique' => 'O e-mail já está em uso.',
+        ];
     }
 
     public function authorize(): bool

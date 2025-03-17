@@ -5,7 +5,7 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    container_name: template-backend
+    container_name: test-backend
     volumes:
       - .:/var/www/html
       - ./default:/etc/nginx/sites-available/default
@@ -16,9 +16,9 @@ services:
 
   db:
     image: mysql:8
-    container_name: template-mysql
+    container_name: test-mysql
     environment:
-      - MYSQL_DATABASE=template
+      - MYSQL_DATABASE=laravel
       - MYSQL_ROOT_PASSWORD=root
     volumes:
       - ./docker/data:/var/lib/mysql

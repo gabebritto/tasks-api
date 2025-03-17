@@ -31,13 +31,13 @@ class UserController extends Controller
         $this->userGetUseCase = new UserGetUseCase($userRepository);
     }
 
-    public function listAll(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $allUsers = $this->userGetUseCase->getAllUsers($request->except('paginate'), $request->paginate);
         return response()->json($allUsers);
     }
 
-    public function getUserById(int $id): JsonResponse
+    public function show(int $id): JsonResponse
     {
         $user = $this->userGetUseCase->getUserById($id);
 
@@ -59,7 +59,7 @@ class UserController extends Controller
         return $this->response("Usuário não encontrado", Response::HTTP_NOT_FOUND);
     }
 
-    public function save(UserCreateRequest $request): JsonResponse
+    public function store(UserCreateRequest $request): JsonResponse
     {
         $userDTO = new UserCreateDTO(
             ...$request->only([
@@ -95,7 +95,7 @@ class UserController extends Controller
         return $this->response("Usuário atualizado com sucesso!", Response::HTTP_OK);
     }
 
-    public function delete(int $id): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         $this->userDeleteUseCase->delete($id);
 

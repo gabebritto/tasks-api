@@ -16,12 +16,6 @@ class AuthController extends Controller
 {
     use HttpResponses;
     private AuthUseCase $authUseCase;
-    private GroupEloquentRepository $groupEloquentRepository;
-
-    public function __construct(GroupEloquentRepository $groupEloquentRepository)
-    {
-        $this->authUseCase = new AuthUseCase($groupEloquentRepository);
-    }
 
     public function login(LoginRequest $request): JsonResponse
     {

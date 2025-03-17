@@ -2,37 +2,23 @@
 
 namespace App\User\Domain\DTO;
 
-use Illuminate\Contracts\Validation\Validator;
-
 use App\Shared\Domain\DTO\AbstractDTO;
-use App\Shared\Domain\DTO\InterfaceDTO;
-use OpenApi\Annotations as OA;
+use Illuminate\Http\Request;
 
-class UserOutputDTO extends AbstractDTO implements InterfaceDTO
+class UserOutputDTO extends AbstractDTO
 {
     public function __construct(
 		public string $name,
 		public string $email
 	){
-        $this->validate();
+        parent::__construct($this->all());
     }
 
-    public static function rules():array{
+    public function toArray(Request $request): array
+    {
         return [
+            'name' => $this->name,
+            'email' => $this->email
         ];
     }
-
-    public static function messages():array {
-        return [
-        ];
-    }
-
-    public function validator(): Validator {
-        return validator($this->all(), self::rules(), self::messages());
-    }
-
-    public function validate(): array {
-        return $this->validator()->validate();
-    }
-
 }
