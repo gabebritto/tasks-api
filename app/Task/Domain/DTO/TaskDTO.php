@@ -7,15 +7,12 @@ use Illuminate\Http\Request;
 
 class TaskDTO extends AbstractDTO
 {
-    public int $user_id;
-
     public function __construct(
         public string $title,
         public string $description,
-        public string $status
+        public string $status,
+        public int $user_id,
     ) {
-        $this->user_id = auth()->user()->id;
-
         parent::__construct($this->all());
     }
 
