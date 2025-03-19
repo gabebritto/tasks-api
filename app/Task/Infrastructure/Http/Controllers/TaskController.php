@@ -104,14 +104,4 @@ class TaskController extends Controller
 
         return $this->response("Comment successfully added!", Response::HTTP_OK);
     }
-
-    public function destroyComment(int $id, int $commentId): JsonResponse
-    {
-        $this->taskDeleteUseCase->deleteComment(
-            $id,
-            $commentId
-        );
-
-        return $this->response("Comment successfully added!", Response::HTTP_OK);
-    }
 }
