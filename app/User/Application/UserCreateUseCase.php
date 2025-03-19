@@ -29,7 +29,6 @@ class UserCreateUseCase
                 $userDTO->name,
                 $userDTO->email,
                 Hash::make($userDTO->password),
-                $userDTO->group_id
             );
 
             $this->userRepository->save($newUserDTO);
