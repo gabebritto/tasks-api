@@ -51,11 +51,10 @@ class TaskController extends Controller
     public function store(TaskRequest $request): JsonResponse
     {
             $taskDTO = new TaskDTO(
-                ...$request->only([
-                    'title',
-                    'description',
-                    'status'
-                ])
+                title: $request->title,
+                description: $request->description,
+                status: $request->status,
+                user_id: auth()->user()->id
             );
 
             $this->taskCreateUseCase->createTask(
@@ -68,11 +67,10 @@ class TaskController extends Controller
     public function update(TaskRequest $request, int $id): JsonResponse
     {
             $taskDTO = new TaskDTO(
-                ...$request->only([
-                    'title',
-                    'description',
-                    'status'
-                ])
+                title: $request->title,
+                description: $request->description,
+                status: $request->status,
+                user_id: auth()->user()->id
             );
 
             $this->taskCreateUseCase->updateTask(
