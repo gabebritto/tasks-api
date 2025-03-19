@@ -82,4 +82,11 @@ php artisan test
 
 ## Documentação da API
 
+```
+Usuário para uso na documentação da API
+
+Email: testing@email.com
+Senha: password
+```
+
 A documentação da API pode ser encontrada em: http://localhost:8002/docs/api

@@ -15,8 +15,13 @@ use Symfony\Component\HttpFoundation\Response;
 class AuthController extends Controller
 {
     use HttpResponses;
-    private AuthUseCase $authUseCase;
 
+    public function __construct(private AuthUseCase $authUseCase)
+    {}
+
+    /**
+     * @unauthenticated
+    **/
     public function login(LoginRequest $request): JsonResponse
     {
         $loginDTO = new LoginDTO(
