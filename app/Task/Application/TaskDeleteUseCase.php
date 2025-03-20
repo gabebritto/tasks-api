@@ -2,9 +2,8 @@
 
 namespace App\Task\Application;
 
-use Exception;
 use App\Task\Domain\Repositories\TaskRepositoryInterface;
-use Illuminate\Support\Facades\DB;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
@@ -22,7 +21,7 @@ class TaskDeleteUseCase
         try {
             $taskExists = $this->taskRepository->findById($id);
 
-            if (!$taskExists) {
+            if (! $taskExists) {
                 throw ValidationException::withMessages(['id' => 'The task not exists.']);
             }
 

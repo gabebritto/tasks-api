@@ -26,7 +26,7 @@ class TaskOutputDTO extends AbstractDTO
             'description' => $this->description,
             'status' => $this->status,
             'created_at' => $this->created_at,
-            'comments' => $this->comments
+            'comments' => $this->comments,
         ];
     }
 }

@@ -21,7 +21,7 @@ class TaskDTO extends AbstractDTO
         return [
             'title' => $this->title,
             'description' => $this->description,
-            'status' => $this->status
+            'status' => $this->status,
         ];
     }
 }

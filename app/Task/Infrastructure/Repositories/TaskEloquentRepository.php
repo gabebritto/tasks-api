@@ -3,16 +3,16 @@
 namespace App\Task\Infrastructure\Repositories;
 
 use App\Task\Domain\DTO\CommentDTO;
-use Illuminate\Pagination\LengthAwarePaginator;
-use App\Task\Infrastructure\Models\Task;
 use App\Task\Domain\DTO\TaskDTO;
 use App\Task\Domain\Repositories\TaskRepositoryInterface;
+use App\Task\Infrastructure\Models\Task;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class TaskEloquentRepository implements TaskRepositoryInterface
 {
     public function all($filters = [], $paginate = 10): LengthAwarePaginator
     {
-        return Task::with('comments')->when(!empty($filters), function ($query) use ($filters) {
+        return Task::with('comments')->when(! empty($filters), function ($query) use ($filters) {
             foreach ($filters as $column => $value) {
                 $query->where($column, 'like', "%$value%");
             }
@@ -31,7 +31,7 @@ class TaskEloquentRepository implements TaskRepositoryInterface
 
     public function update(int $id, TaskDTO $task): void
     {
-         Task::findOrFail($id)->update($task->all());
+        Task::findOrFail($id)->update($task->all());
     }
 
     public function delete(int $id): void

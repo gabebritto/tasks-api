@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 class UserOutputDTO extends AbstractDTO
 {
     public function __construct(
-		public string $name,
-		public string $email
-	){
+        public string $name,
+        public string $email
+    ) {
         parent::__construct($this->all());
     }
 
@@ -18,7 +18,7 @@ class UserOutputDTO extends AbstractDTO
     {
         return [
             'name' => $this->name,
-            'email' => $this->email
+            'email' => $this->email,
         ];
     }
 }

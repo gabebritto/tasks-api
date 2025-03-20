@@ -2,8 +2,8 @@
 
 namespace App\User\Application;
 
-use Exception;
 use App\User\Domain\Repositories\UserRepositoryInterface;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -23,7 +23,7 @@ class UserDeleteUseCase
             DB::beginTransaction();
             $userExists = $this->userRepository->findById($id);
 
-            if (!$userExists) {
+            if (! $userExists) {
                 throw ValidationException::withMessages(['id' => 'O usuário não existe.']);
             }
 

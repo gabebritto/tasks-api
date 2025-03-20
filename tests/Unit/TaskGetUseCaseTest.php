@@ -14,10 +14,12 @@ use Tests\TestCase;
 class TaskGetUseCaseTest extends TestCase
 {
     use RefreshDatabase;
+
     protected $taskService;
+
     protected $taskRepository;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->taskRepository = Mockery::mock(TaskEloquentRepository::class);
@@ -27,7 +29,7 @@ class TaskGetUseCaseTest extends TestCase
     public function test_get_all_task(): void
     {
         $tasks = collect([
-            (object)[
+            (object) [
                 'id' => 1,
                 'title' => 'Task 1',
                 'description' => 'Description for task 1',
@@ -35,14 +37,14 @@ class TaskGetUseCaseTest extends TestCase
                 'created_at' => now(),
                 'comments' => collect([]),
             ],
-            (object)[
+            (object) [
                 'id' => 2,
                 'title' => 'Task 2',
                 'description' => 'Description for task 2',
                 'status' => 'completed',
                 'created_at' => now(),
                 'comments' => collect([]),
-            ]
+            ],
         ]);
 
         $mockPaginator = Mockery::mock(LengthAwarePaginator::class);

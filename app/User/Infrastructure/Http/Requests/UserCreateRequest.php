@@ -2,22 +2,21 @@
 
 namespace App\User\Infrastructure\Http\Requests;
 
-use App\User\Domain\DTO\AdminCreateDTO;
-use App\User\Domain\DTO\CustomerCreateDTO;
-use App\User\Domain\DTO\UserCreateDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserCreateRequest extends FormRequest
 {
-    public function rules():array{
+    public function rules(): array
+    {
         return [
             'name' => 'required|string|min:3|max:60',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|string|min:8|max:255'
+            'password' => 'required|string|min:8|max:255',
         ];
     }
 
-    public function messages():array{
+    public function messages(): array
+    {
         return [
             'name.required' => 'Você precisa definir um nome.',
             'name.min' => 'O nome deve ter pelo menos 3 caracteres.',
@@ -28,7 +27,7 @@ class UserCreateRequest extends FormRequest
             'email.unique' => 'O e-mail já está em uso.',
             'password.required' => 'A senha é obrigatória.',
             'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
-            'password.max' => 'A senha não pode ter mais de 14 caracteres.'
+            'password.max' => 'A senha não pode ter mais de 14 caracteres.',
         ];
     }
 

@@ -13,7 +13,7 @@ class TaskControllerTest extends TestCase
 
     protected User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create(['email' => fake()->email(), 'password' => 'password']);
@@ -42,19 +42,19 @@ class TaskControllerTest extends TestCase
         $response->assertJsonStructure([
             'status',
             'message',
-            'data' => ['task' => ['title', 'description', 'status']]
+            'data' => ['task' => ['title', 'description', 'status']],
         ]);
     }
 
     public function test_task_save(): void
     {
         $payload = [
-            'title' => "Name",
-            'description' => "test description",
-            'status' => "pending"
+            'title' => 'Name',
+            'description' => 'test description',
+            'status' => 'pending',
         ];
 
-        $response = $this->actingAs($this->user)->post("api/task", $payload, ['Accept' => 'application/json']);
+        $response = $this->actingAs($this->user)->post('api/task', $payload, ['Accept' => 'application/json']);
 
         // Do the assertions
         $response->assertStatus(200);
@@ -62,7 +62,7 @@ class TaskControllerTest extends TestCase
         $response->assertJsonStructure([
             'status',
             'message',
-            'data'
+            'data',
         ]);
     }
 
@@ -70,7 +70,7 @@ class TaskControllerTest extends TestCase
     {
         $taskToBeCommented = Task::factory()->create();
         $payload = [
-            'content' => 'comment'
+            'content' => 'comment',
         ];
 
         $response = $this->actingAs($this->user)->post("api/task/$taskToBeCommented->id/comment", $payload, ['Accept' => 'application/json']);
@@ -81,7 +81,7 @@ class TaskControllerTest extends TestCase
         $response->assertJsonStructure([
             'status',
             'message',
-            'data'
+            'data',
         ]);
     }
 
@@ -91,7 +91,7 @@ class TaskControllerTest extends TestCase
         $payload = [
             'title' => 'updated name',
             'description' => 'updated description',
-            'status' => 'in_progress'
+            'status' => 'in_progress',
         ];
 
         $response = $this->actingAs($this->user)->put("api/task/$taskToBeUpdated->id", $payload, ['Accept' => 'application/json']);
@@ -102,7 +102,7 @@ class TaskControllerTest extends TestCase
         $response->assertJsonStructure([
             'status',
             'message',
-            'data'
+            'data',
         ]);
     }
 
@@ -117,7 +117,7 @@ class TaskControllerTest extends TestCase
         $response->assertJsonStructure([
             'status',
             'message',
-            'data'
+            'data',
         ]);
 
         $this->assertDatabaseMissing('users', ['id' => $taskToBeDeleted->id]);

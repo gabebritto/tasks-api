@@ -2,8 +2,8 @@
 
 namespace App\Task\Infrastructure\Routes;
 
-use Illuminate\Support\Facades\Route;
 use App\Task\Infrastructure\Http\Controllers\TaskController;
+use Illuminate\Support\Facades\Route;
 
 class TaskRoutes
 {

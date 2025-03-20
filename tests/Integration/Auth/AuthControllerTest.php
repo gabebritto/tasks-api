@@ -4,8 +4,8 @@ namespace Tests\Integration\Auth;
 
 use App\User\Infrastructure\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
 {
@@ -13,7 +13,7 @@ class AuthControllerTest extends TestCase
 
     protected $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -30,8 +30,8 @@ class AuthControllerTest extends TestCase
             'message' => 'Authorized',
             'status' => 200,
             'data' => [
-                'token' => $response->getData(true)['data']['token']
-            ]
+                'token' => $response->getData(true)['data']['token'],
+            ],
         ]);
 
         $this->assertArrayHasKey('data', $response->getData(true));

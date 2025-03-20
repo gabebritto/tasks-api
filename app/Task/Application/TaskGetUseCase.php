@@ -2,16 +2,13 @@
 
 namespace App\Task\Application;
 
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 use App\Task\Domain\DTO\TaskOutputDTO;
 use App\Task\Domain\Repositories\TaskRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class TaskGetUseCase
 {
-
-    public function __construct(private TaskRepositoryInterface $taskRepository)
-    {}
+    public function __construct(private TaskRepositoryInterface $taskRepository) {}
 
     public function getAllTask($filters = [], $paginate = 10): LengthAwarePaginator
     {

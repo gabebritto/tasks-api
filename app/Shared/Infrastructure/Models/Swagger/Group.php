@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Shared\Infrastructure\Models\Swagger;
+
 use OpenApi\Annotations as OA;
 
 /**
@@ -10,6 +11,7 @@ use OpenApi\Annotations as OA;
  *     title="Group",
  *     description="Group model",
  *     required={"id", "title", "acls"},
+ *
  *     @OA\Property(
  *         property="title",
  *         type="string",
@@ -32,8 +34,10 @@ use OpenApi\Annotations as OA;
  *         property="acls",
  *         type="array",
  *         description="Group`s acls array",
+ *
  *         @OA\Items()
  *     ),
+ *
  *     @OA\Property(
  *         property="status",
  *         type="int",
@@ -42,7 +46,4 @@ use OpenApi\Annotations as OA;
  *     ),
  * )
  */
-class Group
-{
-
-}
+class Group {}
