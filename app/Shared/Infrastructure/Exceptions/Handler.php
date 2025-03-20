@@ -2,11 +2,11 @@
 
 namespace App\Shared\Infrastructure\Exceptions;
 
+use Error;
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
 use Illuminate\Support\Facades\App;
-use \Error;
-use \Exception;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -32,7 +32,6 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param \Throwable $exception
      * @return void
      *
      * @throws \Exception
@@ -45,15 +44,14 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Throwable $exception
+     * @param  \Illuminate\Http\Request  $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Throwable
      */
     public function render($request, Throwable $exception)
     {
-        if (!$request->is('api/*')) {
+        if (! $request->is('api/*')) {
             return parent::render($request, $exception);
         }
 

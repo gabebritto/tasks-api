@@ -34,7 +34,7 @@ class MakeDomain extends Command
         $baseDir = app_path($domainName);
 
         // Create the main domain directory
-        if (!File::exists($baseDir)) {
+        if (! File::exists($baseDir)) {
             File::makeDirectory($baseDir);
         }
 
@@ -46,19 +46,19 @@ class MakeDomain extends Command
                 'Http' => ['Controllers', 'Requests'],
                 'Models',
                 'Repositories',
-                'Routes'
-            ]
+                'Routes',
+            ],
         ];
         $this->createDirectories($baseDir, $subDirs);
 
         $this->info('Estrutura de domínio criada com sucesso!');
 
-        if (! $this->confirmToProceed("Deseja criar os arquivos base do Domínio?")) {
+        if (! $this->confirmToProceed('Deseja criar os arquivos base do Domínio?')) {
             return 0;
         }
 
         $this->info('Criando arquivos do domínio!');
-        Artisan::call("make:domain-crud", ['name' => $domainName]);
+        Artisan::call('make:domain-crud', ['name' => $domainName]);
         $this->info('Implementação de domínio adicionada com sucesso!');
     }
 
@@ -66,17 +66,17 @@ class MakeDomain extends Command
     {
         foreach ($directories as $dir => $subDirs) {
             if (is_array($subDirs)) {
-                $dirPath = $basePath . DIRECTORY_SEPARATOR . $dir;
+                $dirPath = $basePath.DIRECTORY_SEPARATOR.$dir;
 
-                if (!File::exists($dirPath)) {
+                if (! File::exists($dirPath)) {
                     File::makeDirectory($dirPath);
                 }
 
                 $this->createDirectories($dirPath, $subDirs);
             } else {
-                $dirPath = $basePath . DIRECTORY_SEPARATOR . $subDirs;
+                $dirPath = $basePath.DIRECTORY_SEPARATOR.$subDirs;
 
-                if (!File::exists($dirPath)) {
+                if (! File::exists($dirPath)) {
                     File::makeDirectory($dirPath);
                 }
             }

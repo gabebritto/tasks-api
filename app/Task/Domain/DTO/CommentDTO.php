@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class CommentDTO extends AbstractDTO
 {
-
     public function __construct(
         public string $content
     ) {
@@ -17,7 +16,7 @@ class CommentDTO extends AbstractDTO
     public function toArray(Request $request): array
     {
         return [
-            'content' => $this->content
+            'content' => $this->content,
         ];
     }
 }

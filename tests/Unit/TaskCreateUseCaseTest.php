@@ -15,10 +15,12 @@ use Tests\TestCase;
 class TaskCreateUseCaseTest extends TestCase
 {
     use RefreshDatabase;
+
     protected $taskService;
+
     protected $taskRepository;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->taskRepository = Mockery::mock(TaskEloquentRepository::class);

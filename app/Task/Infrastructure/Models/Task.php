@@ -11,11 +11,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Task extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'title',
         'description',
         'status',
-        'user_id'
+        'user_id',
     ];
 
     public function comments(): HasMany

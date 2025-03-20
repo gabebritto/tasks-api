@@ -2,14 +2,14 @@
 
 namespace App\User\Domain\Repositories;
 
-use App\User\Domain\DTO\UserUpdateDTO;
-use Illuminate\Pagination\LengthAwarePaginator;
 use App\User\Domain\DTO\UserCreateDTO;
 use App\User\Domain\DTO\UserOutputDTO;
+use App\User\Domain\DTO\UserUpdateDTO;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface UserRepositoryInterface
 {
-    //Assinaturas
+    // Assinaturas
 
     public function all($filters, $paginate): ?LengthAwarePaginator;
 
@@ -19,8 +19,7 @@ interface UserRepositoryInterface
 
     public function save(UserCreateDTO $user): void;
 
-     public function update(int $id, UserUpdateDTO $user): void;
+    public function update(int $id, UserUpdateDTO $user): void;
 
-     public function delete(int $id): void;
-
+    public function delete(int $id): void;
 }

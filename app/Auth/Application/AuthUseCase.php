@@ -8,7 +8,6 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class AuthUseCase
 {
-
     public function login(LoginDTO $credentials)
     {
         if (Auth::attempt($credentials->all())) {
