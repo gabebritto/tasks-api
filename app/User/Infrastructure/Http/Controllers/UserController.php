@@ -66,7 +66,6 @@ class UserController extends Controller
                 "name",
                 "email",
                 "password",
-                "group_id"
             ])
         );
 
@@ -83,7 +82,6 @@ class UserController extends Controller
             ...$request->only([
                 "name",
                 "email",
-                "group_id"
             ])
         );
 

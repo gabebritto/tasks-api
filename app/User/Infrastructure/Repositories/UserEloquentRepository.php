@@ -45,12 +45,12 @@ class UserEloquentRepository implements UserRepositoryInterface
 
     public function save(UserCreateDTO $user): void
     {
-        User::create($user->toArray());
+        User::create($user->all());
     }
 
     public function update(int $id, UserUpdateDTO $user): void
     {
-        User::findOrFail($id)->update($user->toArray());
+        User::findOrFail($id)->update($user->all());
     }
 
     public function delete(int $id): void

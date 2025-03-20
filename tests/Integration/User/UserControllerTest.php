@@ -1,14 +1,15 @@
 <?php
 
-namespace User;
+namespace Tests\Integration\User;
 
-use App\User\Infrastructure\Models\Customer;
 use App\User\Infrastructure\Models\User;
-use Database\Factories\CustomerFactory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected User $user;
 
     public function setUp(): void
@@ -19,22 +20,20 @@ class UserControllerTest extends TestCase
 
     public function test_user_list(): void
     {
-        User::factory(5)->create();
+        User::factory()->create(['email' => fake()->email()]);
 
         // Send GET request to retrieve all data
-        $response = $this->actingAs($this->user)->getJson('/api/user/list', ['Accept' => 'application/json']);
+        $response = $this->actingAs($this->user)->getJson('/api/user', ['Accept' => 'application/json']);
 
         // Do the assertions
         $response->assertStatus(200);
-        $response->assertJsonCount(6, 'data'); //Acting user + factory created users
+        $response->assertJsonCount(2, 'data'); //Acting user + factory created users
     }
 
     public function test_user_get_by_id(): void
     {
-        $user = User::factory()->create();
-
-        // Send GET request to retrieve customer by email
-        $response = $this->actingAs($this->user)->getJson("/api/user/get-id/$user->id", ['Accept' => 'application/json']);
+        $userId = $this->user->id;
+        $response = $this->actingAs($this->user)->getJson("/api/user/$userId", ['Accept' => 'application/json']);
 
         // Do the assertions
         $response->assertStatus(200);
@@ -42,18 +41,16 @@ class UserControllerTest extends TestCase
         $response->assertJsonStructure([
             'status',
             'message',
-            'data' => ['user']
+            'data' => ['user' => ['name', 'email']]
         ]);
     }
 
     public function test_user_get_by_email(): void
     {
-        $user = User::factory()->create();
-
         // Send GET request to retrieve customer by email
-        $response = $this->actingAs($this->user)->post("/api/user/get-email",
+        $response = $this->actingAs($this->user)->post("/api/user/email",
             [
-                "email" => $user->email
+                "email" => $this->user->email
             ],
             [
                 'Accept' => 'application/json'
@@ -66,7 +63,7 @@ class UserControllerTest extends TestCase
         $response->assertJsonStructure([
             'status',
             'message',
-            'data' => ['user']
+            'data' => ['user' => ['name', 'email']]
         ]);
     }
 
@@ -78,7 +75,7 @@ class UserControllerTest extends TestCase
             'password' => "password123"
         ];
 
-        $response = $this->actingAs($this->user)->post("api/user/save", $payload, ['Accept' => 'application/json']);
+        $response = $this->actingAs($this->user)->post("api/user", $payload, ['Accept' => 'application/json']);
 
         // Do the assertions
         $response->assertStatus(200);
@@ -92,13 +89,9 @@ class UserControllerTest extends TestCase
 
     public function test_user_update(): void
     {
-        $user = User::factory()->create();
+        $userToBeUpdated = User::factory()->create(['email' => fake()->email()]);
 
-        $payload = [
-            ...$user->toArray(),
-        ];
-
-        $response = $this->actingAs($this->user)->put("api/user/$user->id", $payload, ['Accept' => 'application/json']);
+        $response = $this->actingAs($this->user)->put("api/user/$userToBeUpdated->id", ['name' => 'updated name', 'email' => 'updatedemail@email.com'], ['Accept' => 'application/json']);
 
         // Do the assertions
         $response->assertStatus(200);
@@ -112,9 +105,8 @@ class UserControllerTest extends TestCase
 
     public function test_user_delete(): void
     {
-        $user = User::factory()->create();
-
-        $response = $this->actingAs($this->user)->delete("api/user/$user->id", ['Accept' => 'application/json']);
+        $userToBeDeleted = User::factory()->create(['email' => fake()->email()]);
+        $response = $this->actingAs($this->user)->delete("api/user/$userToBeDeleted->id", ['Accept' => 'application/json']);
 
         // Do the assertions
         $response->assertStatus(200);
@@ -125,6 +117,6 @@ class UserControllerTest extends TestCase
             'data'
         ]);
 
-        $this->assertDatabaseMissing('users', ['id' => $user->id]);
+        $this->assertDatabaseMissing('users', ['id' => $userToBeDeleted->id]);
     }
 }
