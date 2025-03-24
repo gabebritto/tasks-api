@@ -2,9 +2,8 @@
 
 namespace App\User\Infrastructure\Routes;
 
-use Illuminate\Support\Facades\Route;
-
 use App\User\Infrastructure\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 class UserRoutes
 {
@@ -12,8 +11,8 @@ class UserRoutes
     {
 
         Route::middleware('auth:sanctum')->group(function () {
-           Route::resource('user', UserController::class);
-           Route::post('user/email', [UserController::class, 'getUserByEmail']);
+            Route::resource('user', UserController::class);
+            Route::post('user/email', [UserController::class, 'getUserByEmail']);
         });
     }
 }

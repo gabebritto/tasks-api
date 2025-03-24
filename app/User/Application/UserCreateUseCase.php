@@ -2,10 +2,10 @@
 
 namespace App\User\Application;
 
-use App\User\Domain\DTO\UserUpdateDTO;
-use Exception;
 use App\User\Domain\DTO\UserCreateDTO;
+use App\User\Domain\DTO\UserUpdateDTO;
 use App\User\Domain\Repositories\UserRepositoryInterface;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -49,7 +49,7 @@ class UserCreateUseCase
             $userExists = $this->userRepository->findById($id);
             $userEmailExists = $this->userRepository->findByEmail($userDTO->email);
 
-            if (!$userExists) {
+            if (! $userExists) {
                 throw ValidationException::withMessages(['id' => 'O usuário não existe.']);
             }
 

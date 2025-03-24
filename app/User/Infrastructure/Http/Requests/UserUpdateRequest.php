@@ -6,14 +6,16 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserUpdateRequest extends FormRequest
 {
-    public function rules():array{
+    public function rules(): array
+    {
         return [
             'name' => 'required|string|min:3|max:60',
-            'email' => 'required|email|max:255'
+            'email' => 'required|email|max:255',
         ];
     }
 
-    public function messages():array{
+    public function messages(): array
+    {
         return [
             'name.required' => 'Você precisa definir um nome.',
             'name.min' => 'O nome deve ter pelo menos 3 caracteres.',

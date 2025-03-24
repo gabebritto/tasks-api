@@ -11,6 +11,7 @@ use OpenApi\Annotations as OA;
  *     title="User",
  *     description="User model",
  *     required={"id", "name", "email"},
+ *
  *     @OA\Property(
  *         property="name",
  *         type="string",
@@ -26,7 +27,4 @@ use OpenApi\Annotations as OA;
  *     )
  * )
  */
-class User
-{
-
-}
+class User {}

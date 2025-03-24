@@ -3,23 +3,21 @@
 namespace Tests\Integration\Auth;
 
 use App\User\Infrastructure\Models\User;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
 {
-    protected $token;
+    use RefreshDatabase;
+
     protected $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $password = 'password';
-        $this->user = User::factory()->create([
-            'password' => bcrypt($password),
-            'group_id' => 1,
-        ]);
+        $this->user = User::factory()->create(['email' => fake()->email(), 'password' => 'password']);
     }
 
     public function test_login_success(): void
@@ -32,8 +30,8 @@ class AuthControllerTest extends TestCase
             'message' => 'Authorized',
             'status' => 200,
             'data' => [
-                'token' => $response->getData(true)['data']['token']
-            ]
+                'token' => $response->getData(true)['data']['token'],
+            ],
         ]);
 
         $this->assertArrayHasKey('data', $response->getData(true));

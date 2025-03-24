@@ -2,10 +2,9 @@
 
 namespace App\User\Application;
 
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 use App\User\Domain\DTO\UserOutputDTO;
 use App\User\Domain\Repositories\UserRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserGetUseCase
 {
@@ -45,5 +44,4 @@ class UserGetUseCase
 
         return new UserOutputDTO($user->name, $user->email);
     }
-
 }

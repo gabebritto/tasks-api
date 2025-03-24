@@ -3,8 +3,6 @@
 namespace Tests\Unit;
 
 use App\Task\Application\TaskDeleteUseCase;
-use App\Task\Domain\DTO\CommentDTO;
-use App\Task\Domain\DTO\TaskDTO;
 use App\Task\Infrastructure\Models\Task;
 use App\Task\Infrastructure\Repositories\TaskEloquentRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,10 +13,12 @@ use Tests\TestCase;
 class TaskDeleteUseCaseTest extends TestCase
 {
     use RefreshDatabase;
+
     protected $taskService;
+
     protected $taskRepository;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->taskRepository = Mockery::mock(TaskEloquentRepository::class);

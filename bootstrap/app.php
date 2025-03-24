@@ -3,14 +3,13 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\Http\Middleware\CheckAbilities;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -29,7 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json([
-                    'message' => 'Recurso não encontrado'
+                    'message' => 'Recurso não encontrado',
                 ], 404);
             }
         });
@@ -44,14 +43,14 @@ return Application::configure(basePath: dirname(__DIR__))
             ], 401);
         });
         $exceptions->render(function (ValidationException $e, Request $request) {
-            if($request->is('api/user/login')){
+            if ($request->is('api/user/login')) {
                 return response()->json([
                     'message' => 'Credenciais inválidas',
                 ], 401);
             }
             if ($request->is('api/*')) {
                 return response()->json([
-                    'errors' => $e->errors()
+                    'errors' => $e->errors(),
                 ], 422);
             }
         });

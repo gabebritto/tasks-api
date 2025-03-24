@@ -19,8 +19,11 @@ use Symfony\Component\HttpFoundation\Response;
 class UserController extends Controller
 {
     use HttpResponses;
+
     private UserCreateUseCase $userCreateUseCase;
+
     private UserGetUseCase $userGetUseCase;
+
     private UserDeleteUseCase $userDeleteUseCase;
 
     public function __construct(UserEloquentRepository $userRepository)
@@ -34,6 +37,7 @@ class UserController extends Controller
     public function index(Request $request): JsonResponse
     {
         $allUsers = $this->userGetUseCase->getAllUsers($request->except('paginate'), $request->paginate);
+
         return response()->json($allUsers);
     }
 
@@ -42,10 +46,10 @@ class UserController extends Controller
         $user = $this->userGetUseCase->getUserById($id);
 
         if ($user) {
-            return $this->response("Operação realizada com sucesso", Response::HTTP_OK, ['user' =>  $user]);
+            return $this->response('Operação realizada com sucesso', Response::HTTP_OK, ['user' => $user]);
         }
 
-        return $this->response("Usuário não encontrado", Response::HTTP_NOT_FOUND);
+        return $this->response('Usuário não encontrado', Response::HTTP_NOT_FOUND);
     }
 
     public function getUserByEmail(Request $request): JsonResponse
@@ -53,20 +57,19 @@ class UserController extends Controller
         $user = $this->userGetUseCase->getUserByEmail($request['email']);
 
         if ($user) {
-            return $this->response("Operação realizada com sucesso", Response::HTTP_OK, ['user' =>  $user]);
+            return $this->response('Operação realizada com sucesso', Response::HTTP_OK, ['user' => $user]);
         }
 
-        return $this->response("Usuário não encontrado", Response::HTTP_NOT_FOUND);
+        return $this->response('Usuário não encontrado', Response::HTTP_NOT_FOUND);
     }
 
     public function store(UserCreateRequest $request): JsonResponse
     {
         $userDTO = new UserCreateDTO(
             ...$request->only([
-                "name",
-                "email",
-                "password",
-                "group_id"
+                'name',
+                'email',
+                'password',
             ])
         );
 
@@ -74,16 +77,15 @@ class UserController extends Controller
             $userDTO
         );
 
-        return $this->response("Usuário cadastrado com sucesso!", Response::HTTP_OK);
+        return $this->response('Usuário cadastrado com sucesso!', Response::HTTP_OK);
     }
 
     public function update(UserUpdateRequest $request, int $id): JsonResponse
     {
         $userDTO = new UserUpdateDTO(
             ...$request->only([
-                "name",
-                "email",
-                "group_id"
+                'name',
+                'email',
             ])
         );
 
@@ -92,13 +94,13 @@ class UserController extends Controller
             $userDTO
         );
 
-        return $this->response("Usuário atualizado com sucesso!", Response::HTTP_OK);
+        return $this->response('Usuário atualizado com sucesso!', Response::HTTP_OK);
     }
 
     public function destroy(int $id): JsonResponse
     {
         $this->userDeleteUseCase->delete($id);
 
-        return $this->response("Usuário excluído com sucesso!", Response::HTTP_OK);
+        return $this->response('Usuário excluído com sucesso!', Response::HTTP_OK);
     }
 }

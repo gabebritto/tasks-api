@@ -3,16 +3,15 @@
 namespace App\Task\Application;
 
 use App\Task\Domain\DTO\CommentDTO;
+use App\Task\Domain\DTO\TaskDTO;
+use App\Task\Domain\Repositories\TaskRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
-use App\Task\Domain\DTO\TaskDTO;
-use App\Task\Domain\Repositories\TaskRepositoryInterface;
 
 class TaskCreateUseCase
 {
-    public function __construct(private TaskRepositoryInterface $taskRepository)
-    {}
+    public function __construct(private TaskRepositoryInterface $taskRepository) {}
 
     public function createTask(TaskDTO $taskDTO): void
     {
@@ -30,7 +29,7 @@ class TaskCreateUseCase
         try {
             $taskExists = $this->taskRepository->findById($id);
 
-            if (!$taskExists) {
+            if (! $taskExists) {
                 throw ValidationException::withMessages(['id' => 'The task not exists.']);
             }
 
@@ -49,7 +48,7 @@ class TaskCreateUseCase
         try {
             $taskExists = $this->taskRepository->findById($id);
 
-            if (!$taskExists) {
+            if (! $taskExists) {
                 throw ValidationException::withMessages(['id' => 'The task not exists.']);
             }
 
